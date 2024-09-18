@@ -79,7 +79,44 @@ async function createProjectPages (graphql, actions, reporter) {
   })
 }
 
+async function createTestimonialPages(graphql, actions, reporter) {
+  const { createPage } = actions
+  const result = await graphql(`
+    {
+      allSanityTestimonial(filter: { slug: { current: { ne: null } } }) {
+        edges {
+          node {
+            id
+            slug {
+              current
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  if (result.errors) throw result.errors
+
+  const testimonialEdges = result.data.allSanityTestimonial.edges || []
+
+  testimonialEdges.forEach(edge => {
+    const id = edge.node.id
+    const slug = edge.node.slug.current
+    const path = `/testimonial/${slug}/`
+
+    reporter.info(`Creating testimonial page: ${path}`)
+
+    createPage({
+      path,
+      component: require.resolve('./src/templates/testimonial.js'),
+      context: { id },
+    })
+  })
+}
+
 exports.createPages = async ({ graphql, actions, reporter }) => {
   await createBlogPostPages(graphql, actions, reporter)
   await createProjectPages(graphql, actions, reporter)
+  await createTestimonialPages(graphql, actions, reporter)
 }

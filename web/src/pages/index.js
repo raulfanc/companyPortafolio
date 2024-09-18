@@ -7,6 +7,9 @@ import GraphQLErrorList from '../components/graphql-error-list'
 import ProjectPreviewGrid from '../components/project-preview-grid'
 import SEO from '../components/seo'
 import Layout from '../containers/layout'
+import Testimonial from '../components/Testimonial'
+import TestimonialPreview from '../components/testimonial-preview'
+
 
 export const query = graphql`
   query IndexPageQuery {
@@ -86,6 +89,25 @@ export const query = graphql`
         }
       }
     }
+    
+    testimonials: allSanityTestimonial(filter: { includeInRotation: { eq: true } }) {
+      nodes {
+        testimonialText {
+          children {
+            _key
+            _type
+            text
+          }
+          _key
+          _type
+          style
+        }
+        slug {
+          current
+        }
+        _id
+      }
+    } 
   }
 `
 
@@ -106,6 +128,10 @@ const IndexPage = props => {
     : []
   const projectNodes = (data || {}).projects
     ? mapEdgesToNodes(data.projects).filter(filterOutDocsWithoutSlugs)
+    : []
+
+    const testimonialNodes = (data || {}).testimonials
+    ? mapEdgesToNodes(data.testimonials).filter(filterOutDocsWithoutSlugs)
     : []
 
   if (!site) {
@@ -131,6 +157,13 @@ const IndexPage = props => {
             title='Latest blog posts'
             nodes={postNodes}
             browseMoreHref='/blog/'
+          />
+        )}
+        {testimonialNodes && (
+          <Testimonial
+          title='Testimonials'
+          nodes={testimonialNodes}
+          browseMoreHref='/testimonials/'
           />
         )}
       </Container>

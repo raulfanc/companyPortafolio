@@ -1,3 +1,5 @@
+const { graphql } = require('gatsby')
+
 require('dotenv').config()
 const {
   api: { projectId, dataset }
@@ -16,7 +18,8 @@ module.exports = {
         // and add a token with read permissions
         token: process.env.SANITY_TOKEN,
         watchMode: true,
-        overlayDrafts: true
+        overlayDrafts: true,
+        graphqlTag: 'default',
       }
     }
   ]

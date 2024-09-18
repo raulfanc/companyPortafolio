@@ -22,6 +22,7 @@ import slideshow from './slideshow'
 import service from './service'
 import teamMember from './teamMember'
 import seo from './seo'
+import testimonial from './testimonial'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -48,6 +49,7 @@ export default createSchema({
     slideshow,
     service,
     teamMember,
+    testimonial,
     seo,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas

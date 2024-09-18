@@ -128,4 +128,32 @@ npm run now-deploy
 
 ## License
 
+
+# undo all the changes after the git push
+You’ve made some changes (including adding new files) after you already committed and pushed to the remote, but you haven't staged (git add) or committed these changes. Now, you want to revert everything back to the state it was right after the last push.
+
+Here’s what you need to do:
+Discard all changes to tracked files (files that were part of your last commit).
+Remove all newly created, untracked files (files that are not part of the repository).
+Steps:
+1. To discard changes in tracked files:
+This command will reset all tracked files (files that were in your last commit) to the state of the last commit:
+
+bash
+Copy code
+git restore --worktree .
+Alternatively, you can use:
+
+bash
+Copy code
+git checkout -- .
+2. To remove untracked files and directories (new files you haven't added):
+If you've created new files or directories that aren’t tracked by Git yet, you can remove them with:
+
+bash
+Copy code
+git clean -fd
+-f: Force removal of untracked files.
+-d: Remove untracked directories as well.
+
 MIT
